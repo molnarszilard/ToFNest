@@ -8,8 +8,8 @@ In this work we propose an efficient normal estimation method for  depth  images
 ## Content
 - [Prerequisites](#prerequisites)
 - [Data Preparation](#data-preparation)
-- [Training & Evaluation](#training&evaluation)
-- [How to run](#howtorun)
+- [Training and Evaluation](#training-and-evaluation)
+- [How to run](#how-to-run)
 - [Demo](#demo)
 
 ## Prerequisites
@@ -31,7 +31,7 @@ For training you will need the depth images with their corresponding image conta
 
 You can also download the NYU_V2 (https://cs.nyu.edu/~silberman/datasets/nyu_depth_v2.html) dataset, that contains the depth images and the gt normals (https://github.com/facebookresearch/fair_self_supervision_benchmark/blob/master/configs/benchmark_tasks/surface_normal_estimation/README.md or  https://cs.nyu.edu/~deigen/dnl/normals_gt.tgz). This might need some additional steps to read the files.
 
-## Training & Evaluation
+## Training and Evaluation
 ![arch_new](https://user-images.githubusercontent.com/22835687/109430618-f692a780-7a0a-11eb-9270-1421457f8433.png)
 
 ## How to run
@@ -51,3 +51,11 @@ Run python eval.py [--options]
 
 At https://github.com/molnarszilard/ToFNest_data_processing, you can find a code that compares the GT pointcloud with normals to your generated normal images.
 ## Demo
+
+Full video are available at: TODO SZILARD -> YOUTUBE LINK
+
+
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/22835687/109798142-0f75a580-7c23-11eb-9d65-3dff8d8f3439.gif)
+
+
+
