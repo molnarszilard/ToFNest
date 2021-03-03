@@ -50,7 +50,7 @@ Run python eval.py [--options]
 At https://github.com/molnarszilard/ToFNest_data_processing, you can find a code that compares the GT pointcloud with normals to your generated normal images.
 ## Demo
 
-Full video are available at: TODO SZILARD -> YOUTUBE LINK
+Full video are available at: https://youtu.be/cOSoMvRneVw
 
 
 ![ezgif com-gif-maker](https://user-images.githubusercontent.com/22835687/109798142-0f75a580-7c23-11eb-9d65-3dff8d8f3439.gif)
