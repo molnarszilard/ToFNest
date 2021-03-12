@@ -29,7 +29,7 @@ class DatasetLoader(data.Dataset):
             combine_depth[:,:,2] = depth_input
             depth_input = combine_depth
         normalgt = Image.open(path.replace('depth_input', 'normalimages'))
-        depth_input_mod = np.moveaxis(cv2.resize(depth_input,(depth_input.shape[1],depth_input.shape[0])).astype(np.float32),-1,0)
+        depth_input_mod = np.moveaxis(depth_input.astype(np.float32),-1,0)
         normalgt_mod = Compose([Resize((depth_input.shape[0],depth_input.shape[1])), ToTensor()])(normalgt)
         return depth_input_mod, normalgt_mod
 
