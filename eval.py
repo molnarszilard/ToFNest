@@ -102,7 +102,7 @@ if __name__ == '__main__':
                 continue
         print('Predicting '+str(counter)+' images took ', time_sum/counter)  
     else:
-        depth = cv2.imread(args.input_image_path,cv2.IMREAD_UNCHANGED )
+        depth = cv2.imread(args.input_image_path,cv2.IMREAD_UNCHANGED).astype(np.float32)
         if len(depth.shape) < 3:
             print("Got 1 channel depth images, creating 3 channel depth images")
             combine_depth = np.empty((depth.shape[0],depth.shape[1], 3))
@@ -110,7 +110,7 @@ if __name__ == '__main__':
             combine_depth[:,:,1] = depth
             combine_depth[:,:,2] = depth
             depth = combine_depth
-        depth2 = np.moveaxis(cv2.resize(depth,(depth.shape[1],depth.shape[0])).astype(np.float32),-1,0)
+        depth2 = np.moveaxis(depth,-1,0)
         img = torch.from_numpy(depth2).float().unsqueeze(0)
         start = timeit.default_timer()
         z_fake = d2n(img.cuda())
