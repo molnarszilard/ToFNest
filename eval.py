@@ -85,7 +85,7 @@ if __name__ == '__main__':
                     combine_depth[:,:,1] = depth
                     combine_depth[:,:,2] = depth
                     depth = combine_depth
-                depth2 = np.moveaxis(cv2.resize(depth,(depth.shape[1],depth.shape[0])).astype(np.float32),-1,0)
+                depth2 = np.moveaxis(depth.astype(np.float32),-1,0)
                 img = torch.from_numpy(depth2).float().unsqueeze(0)
                 start = timeit.default_timer()
                 z_fake = d2n(img.cuda())
