@@ -271,4 +271,47 @@ if __name__ == '__main__':
                    save_name)
 
             print('save model: {}'.format(save_name))
-        print('time elapsed: %fs' % (end - start))   
+        print('time elapsed: %fs' % (end - start))
+        with torch.no_grad():
+            # setting to eval mode
+            d2n.eval()
+
+            img = Variable(torch.FloatTensor(1), volatile=True)
+            z = Variable(torch.FloatTensor(1), volatile=True)
+            if args.cuda:
+                img = img.cuda()
+                z = z.cuda()
+
+            print('evaluating...')
+
+            eval_data_iter = iter(eval_dataloader)
+            for i, data in enumerate(eval_data_iter):
+                print(i,'/',len(eval_data_iter)-1)
+
+                img.resize_(data[0].size()).copy_(data[0])
+                z.resize_(data[1].size()).copy_(data[1])
+                
+                z_fake = d2n(img)
+               
+                zfv=z_fake*2-1
+                z_fake_norm=zfv.pow(2).sum(dim=1).pow(0.5).unsqueeze(1)      
+                zfv=zfv/z_fake_norm
+                z_fake=(zfv+1)/2
+
+                zv=z*2-1
+                z_norm=zv.pow(2).sum(dim=1).pow(0.5).unsqueeze(1)
+                zv=zv/z_norm
+                z=(zv+1)/2
+
+                vloss_eval = vector_loss(z_fake, z)
+               
+                eval_loss += vloss_eval
+               
+                
+            eval_loss = eval_loss/len(eval_dataloader)
+            val_loss_arr.append(eval_loss)
+            print("[epoch %2d] loss: %.4f " \
+                            % (epoch, torch.sqrt(eval_loss)))
+            with open('val.txt', 'a') as f:
+                f.write("[epoch %2d] loss: %.4f\n" \
+                            % (epoch, torch.sqrt(eval_loss)))
