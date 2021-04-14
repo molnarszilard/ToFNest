@@ -142,11 +142,15 @@ if __name__ == '__main__':
     if not os.path.exists(args.model_dir):
         os.makedirs(args.model_dir)
         
-    train_dataset = DatasetLoader()
+    train_dataset = DatasetLoader(train=True)
     train_size = len(train_dataset)
+    eval_dataset = DatasetLoader(train=False)
+    eval_size = len(eval_dataset)
     print(train_size)
 
     train_dataloader = torch.utils.data.DataLoader(train_dataset, batch_size=args.bs,
+                            shuffle=True, num_workers=args.num_workers)
+    eval_dataloader = torch.utils.data.DataLoader(eval_dataset, batch_size=args.bs,
                             shuffle=True, num_workers=args.num_workers)
 
     # network initialization
@@ -272,6 +276,8 @@ if __name__ == '__main__':
 
             print('save model: {}'.format(save_name))
         print('time elapsed: %fs' % (end - start))
+        
+        eval_loss = 0
         with torch.no_grad():
             # setting to eval mode
             d2n.eval()
@@ -309,7 +315,7 @@ if __name__ == '__main__':
                
                 
             eval_loss = eval_loss/len(eval_dataloader)
-            val_loss_arr.append(eval_loss)
+            # val_loss_arr.append(eval_loss)
             print("[epoch %2d] loss: %.4f " \
                             % (epoch, torch.sqrt(eval_loss)))
             with open('val.txt', 'a') as f:
