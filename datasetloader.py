@@ -13,14 +13,19 @@ class DatasetLoader(data.Dataset):
         np.random.seed(seed)
         self.root = Path(root)
 
-        self.depth_input_paths = [root+'depth_input/'+d for d in os.listdir(root+'depth_input/')]
-        self.depth_input_paths = np.random.choice(self.depth_input_paths, len(self.depth_input_paths), False)
+        if train:
+            self.depth_input_paths = [root+'depth3/train/'+d for d in os.listdir(root+'depth3/train')]
+            # Randomly choose 50k images without replacement
+            # self.rgb_paths = np.random.choice(self.rgb_paths, 4000, False)
+        else:
+            self.depth_input_paths = [root+'depth3/test/'+d for d in os.listdir(root+'depth3/test/')]
+            # self.rgb_paths = np.random.choice(self.rgb_paths, 1000, False)
         
         self.length = len(self.depth_input_paths)
             
     def __getitem__(self, index):
         path = self.depth_input_paths[index]
-        depth_input = cv2.imread(path,cv2.IMREAD_UNCHANGED )
+        depth_input = cv2.imread(path,cv2.IMREAD_UNCHANGED).astype(np.float32)
         if len(depth_input.shape) < 3:
             print("Got 1 channel depth images, creating 3 channel depth images")
             combine_depth = np.empty((depth_input.shape[0],depth_input.shape[1], 3))
@@ -28,8 +33,8 @@ class DatasetLoader(data.Dataset):
             combine_depth[:,:,1] = depth_input
             combine_depth[:,:,2] = depth_input
             depth_input = combine_depth
-        normalgt = Image.open(path.replace('depth_input', 'normalimages'))
-        depth_input_mod = np.moveaxis(depth_input.astype(np.float32),-1,0)
+        normalgt = Image.open(path.replace('depth3', 'normalimages'))
+        depth_input_mod = np.moveaxis(depth_input,-1,0)
         normalgt_mod = Compose([Resize((depth_input.shape[0],depth_input.shape[1])), ToTensor()])(normalgt)
         return depth_input_mod, normalgt_mod
 
