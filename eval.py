@@ -29,7 +29,7 @@ def parse_args():
                       default=False, type=bool)
     parser.add_argument('--model_path', dest='model_path',
                       help='path to the model to use',
-                      default='saved_models/d2n_1_10.pth', type=str)
+                      default='saved_models/d2n_1_9.pth', type=str)
 
     args = parser.parse_args()
     return args
@@ -68,7 +68,7 @@ if __name__ == '__main__':
     img = Variable(torch.FloatTensor(1), volatile=True)
 
     print('evaluating...')
-        with torch.no_grad():
+    with torch.no_grad():
         if args.eval_folder:
             dlist=os.listdir(args.input_image_path)
             dlist.sort()
@@ -123,3 +123,4 @@ if __name__ == '__main__':
             save_path=args.input_image_path[:-4]
             save_image(z_fake[0], save_path +"_pred"+'.png')
             print('Predicting the image took ', stop-start)
+    
