@@ -9,16 +9,16 @@ import cv2
 
 class DatasetLoader(data.Dataset):
     
-    def __init__(self, root='/home/user/dataset/', seed=None, train=True):
+    def __init__(self, root='/mnt/ssd1/datasets/c24/', seed=None, train=True):
         np.random.seed(seed)
         self.root = Path(root)
 
         if train:
-            self.depth_input_paths = [root+'depth3/train/'+d for d in os.listdir(root+'depth3/train')]
+            self.depth_input_paths = [root+'air2depth/train/'+d for d in os.listdir(root+'air2depth/train')]
             # Randomly choose 50k images without replacement
             # self.rgb_paths = np.random.choice(self.rgb_paths, 4000, False)
         else:
-            self.depth_input_paths = [root+'depth3/test/'+d for d in os.listdir(root+'depth3/test/')]
+            self.depth_input_paths = [root+'air2depth/test/'+d for d in os.listdir(root+'air2depth/test/')]
             # self.rgb_paths = np.random.choice(self.rgb_paths, 1000, False)
         
         self.length = len(self.depth_input_paths)
@@ -33,7 +33,7 @@ class DatasetLoader(data.Dataset):
             combine_depth[:,:,1] = depth_input
             combine_depth[:,:,2] = depth_input
             depth_input = combine_depth
-        normalgt = Image.open(path.replace('depth3', 'normalimages'))
+        normalgt = Image.open(path.replace('air2depth', 'normalimages'))
         depth_input_mod = np.moveaxis(depth_input,-1,0)
         normalgt_mod = Compose([Resize((depth_input.shape[0],depth_input.shape[1])), ToTensor()])(normalgt)
         return depth_input_mod, normalgt_mod
