@@ -56,4 +56,5 @@ Full video are available at: https://youtu.be/cOSoMvRneVw
 ![ezgif com-gif-maker](https://user-images.githubusercontent.com/22835687/109798142-0f75a580-7c23-11eb-9d65-3dff8d8f3439.gif)
 
 
+The main file types are point clouds, RGB images and depth images captured by Pico Zense cameras and ADI Smart Cameras (Courtesy of Analog Devices).
 
