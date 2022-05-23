@@ -75,18 +75,34 @@ Run python eval.py [--options], for example (depth_folder can be a file or an en
 ```python eval.py --depth_folder=./dataset/depth3/test/ --model_path=./saved_models/d2n_1_9.pth --pred_folder=./pred_images/```
 
 At https://github.com/molnarszilard/ToFNest_data_processing, you can find a code that compares the GT pointcloud with normals to your generated normal images.
+
+### Real time evaluation
+
+This code can be run using depth images from a ROS topic.
+A bag file (~5GB), that contains the depth topic (/pico_zense/depth/), can be found at https://drive.google.com/file/d/1aQ2M3FsPrUHNpcYEZz-6i8YmFC5fWTEB/view?usp=sharing
+
+
+You need to install ROS Melodic. 
+
+inside conda environment:
+```pip install pyyaml```
+```pip install rospkg```
+```pip install rospy```
+
+Input_topic is the base topic, this means that, this topic has two other subtopics: image_raw, and camera_info. You have to specify the base topic as argument, or modify the .py file or your bag is differently structured.
+
+Then start a roscore, and the bag (```rosbag play -l rosbag.bag``` (-l means it is played in a loop, repeatedly). (does not require conda))
+
+```python tofnest_rt.py``` (requires conda)
+
+By default only the normal images are published on /normal_image topic. If you want to puv=blish the colored pcd, set publish_pcd flag to True. (Note that this will drastically reduce the speed, since the conversion between a depth image to a pcd can be a lenghty process, especially in python).
+
 ## Demo
 
 Full video are available at: https://youtu.be/cOSoMvRneVw
 
 
 ![ezgif com-gif-maker](https://user-images.githubusercontent.com/22835687/109798142-0f75a580-7c23-11eb-9d65-3dff8d8f3439.gif)
-
-## Running the program with a rosbag file
-
-The code can be run near real time on a rosbag file, which contains the proper depth topic.
-Use this repo: https://github.com/molnarszilard/ToFNest_rt
-
 ## Citations
 ### Citing this work
 If you find our code / paper / data useful to your research, please consider citing:
