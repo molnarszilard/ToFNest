@@ -9,6 +9,7 @@ In this work we propose an efficient normal estimation method for  depth  images
 - [Data Preparation](#data-preparation)
 - [Training and Evaluation](#training-and-evaluation)
 - [How to run](#how-to-run)
+- [Real-time evaluation](#real-time-evaluation)
 - [Demo](#demo)
 
 ## Prerequisites
@@ -76,7 +77,7 @@ Run python eval.py [--options], for example (depth_folder can be a file or an en
 
 At https://github.com/molnarszilard/ToFNest_data_processing, you can find a code that compares the GT pointcloud with normals to your generated normal images.
 
-### Real time evaluation
+### Real-time evaluation
 
 This code can be run using depth images from a ROS topic.
 A bag file (~5GB), that contains the depth topic (/pico_zense/depth/), can be found at https://drive.google.com/file/d/1aQ2M3FsPrUHNpcYEZz-6i8YmFC5fWTEB/view?usp=sharing
