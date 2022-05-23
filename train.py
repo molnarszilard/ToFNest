@@ -40,6 +40,12 @@ def parse_args():
     parser.add_argument('--model_dir', dest='model_dir',
                       help='output directory',
                       default='saved_models', type=str)
+    parser.add_argument('--data_dir', dest='data_dir',
+                      help='dataset directory',
+                      default='/dataset/', type=str)
+    parser.add_argument('--depth_dir', dest='data_dir',
+                      help='dataset directory of the folder containing depth images. This is inside data_dir. Inside this folder the data should be organised int otrain and test batched. Next to this folder there should be a normalimages named folder containing the normalimages.',
+                      default='/dataset/', type=str)
 
 # config optimization
     parser.add_argument('--o', dest='optimizer',
@@ -142,9 +148,9 @@ if __name__ == '__main__':
     if not os.path.exists(args.model_dir):
         os.makedirs(args.model_dir)
         
-    train_dataset = DatasetLoader(train=True)
+    train_dataset = DatasetLoader(root=args.data_dir,train=True)
     train_size = len(train_dataset)
-    eval_dataset = DatasetLoader(train=False)
+    eval_dataset = DatasetLoader(root=args.data_dir,train=False)
     eval_size = len(eval_dataset)
     print(train_size)
 

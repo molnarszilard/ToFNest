@@ -29,7 +29,7 @@ def parse_args():
                       default=False, type=bool)
     parser.add_argument('--model_path', dest='model_path',
                       help='path to the model to use',
-                      default='saved_models/d2n_1_9_i2d.pth', type=str)
+                      default='saved_models/d2n_1_9_d3.pth', type=str)
 
     args = parser.parse_args()
     return args

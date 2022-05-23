@@ -36,7 +36,7 @@ You can also download the NYU_V2 (https://cs.nyu.edu/~silberman/datasets/nyu_dep
 
 ### Training
 
-Modify in datasetloader.py the path to the folder containing your depth images (16bit 1 or 3 channel) and the images about the normla vector (8bit RGB). The depth images can be simple depth images, in order to increase the dataloading speed you might want to create 3 channel depth images (the same data from the depth image is copied), or you can also experiment with different combinations, like 2 channel containing depth information, and 1 channel containing a monochrome image (all of these should be on 16 bit).
+Modify in datasetloader.py the path to the folder containing your depth images (16bit 1 or 3 channel) and the images about the normal vector (8bit RGB). The depth images can be simple depth images, in order to increase the dataloading speed you might want to create 3 channel depth images (the same data from the depth image is copied), or you can also experiment with different combinations, like 2 channel containing depth information, and 1 channel containing a monochrome image (all of these should be on 16 bit).
 In train.py you can see the available options, and modify them, either from code, or using them as [--options] at running. You might want to set the code to save images from the training phase, so you can see the evolution of the training.
 
 Run python train.py [--options]
@@ -54,6 +54,27 @@ Full video are available at: https://youtu.be/cOSoMvRneVw
 
 
 ![ezgif com-gif-maker](https://user-images.githubusercontent.com/22835687/109798142-0f75a580-7c23-11eb-9d65-3dff8d8f3439.gif)
+
+## Running the program with a rosbag file
+
+The code can be run near real time on a rosbag file, which contains the proper depth topic.
+Use this repo: https://github.com/molnarszilard/ToFNest_rt
+
+## Citations
+### Citing this work
+If you find our code / paper / data useful to your research, please consider citing:
+
+```bibtex
+@inproceedings{molnar2021ToFNestEfficientNormala,
+  title = {{{ToFNest}}: {{Efficient Normal Estimation}} for {{Time-of-Flight Depth Cameras}}},
+  booktitle = {Proceedings of the {{IEEE}}/{{CVF International Conference}} on {{Computer Vision}}},
+  author = {Moln{\'a}r, Szil{\'a}rd and Kel{\'e}nyi, Benjamin and Tam{\'a}s, Levente},
+  year = {2021},
+  pages = {1791--1798},
+  publisher = {{IEEE Computer Society}},
+  address = {{online}}
+}
+```
 
 
 The main file types are point clouds, RGB images and depth images captured by Pico Zense cameras and ADI Smart Cameras (Courtesy of Analog Devices).
