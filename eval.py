@@ -1,13 +1,12 @@
 from model_fpn import D2N
-from threading import Thread
 from torch.autograd import Variable
 from torchvision.utils import save_image
-import argparse, time
+import argparse
 import cv2
 import numpy as np
-import os, sys
+import os
 import timeit
-import torch, time
+import torch
 
 def parse_args():
     """
@@ -21,12 +20,12 @@ def parse_args():
     parser.add_argument('--num_workers', dest='num_workers',
                       help='num_workers',
                       default=1, type=int)  
-    parser.add_argument('--input_image_path', dest='input_image_path',
+    parser.add_argument('--depth_folder', dest='depth_folder',
                       help='path to a single input image for evaluation',
-                      default='/home/user/dataset/depth_images/depth.png', type=str)
-    parser.add_argument('--eval_folder', dest='eval_folder',
-                      help='evaluate only one image or the whole folder',
-                      default=False, type=bool)
+                      default='./dataset/depth_images/depth.png', type=str)
+    parser.add_argument('--pred_folder', dest='pred_folder',
+                      help='where to save the predicted images.',
+                      default='./dataset/predicted_images/', type=str)
     parser.add_argument('--model_path', dest='model_path',
                       help='path to the model to use',
                       default='saved_models/d2n_1_9.pth', type=str)
@@ -37,7 +36,10 @@ def parse_args():
 if __name__ == '__main__':
 
     args = parse_args()
-
+    isExist = os.path.exists(args.pred_folder)
+    if not isExist:
+        os.makedirs(args.pred_folder)
+        print("The new directory for saving images while training is created!")
     if torch.cuda.is_available() and not args.cuda:
         print("WARNING: You might want to run with --cuda")
     
@@ -47,8 +49,7 @@ if __name__ == '__main__':
     if args.cuda:
         d2n = d2n.cuda()
         
-    print('Done!')
-    
+    print('Done!')    
     
     load_name = os.path.join(args.model_path)
     print("loading checkpoint %s" % (load_name))
@@ -69,14 +70,14 @@ if __name__ == '__main__':
 
     print('evaluating...')
     with torch.no_grad():
-        if args.input_image_path.endswith('.png'):
-            dlist=os.listdir(args.input_image_path)
+        if not args.depth_folder.endswith('.png'):
+            dlist=os.listdir(args.depth_folder)
             dlist.sort()
             time_sum = 0
             counter = 0
             for filename in dlist:
                 if filename.endswith(".png"):
-                    path=args.input_image_path+filename
+                    path=args.depth_folder+filename
                     print("Predicting for:"+filename)
                     depth = cv2.imread(path,cv2.IMREAD_UNCHANGED ).astype(np.float32)
                     if len(depth.shape) < 3:
@@ -97,13 +98,13 @@ if __name__ == '__main__':
                     z_fake_norm=zfv.pow(2).sum(dim=1).pow(0.5).unsqueeze(1)
                     zfv=zfv/z_fake_norm
                     z_fake=(zfv+1)/2
-                    save_path=path[:-4]
+                    save_path=args.pred_folder+filename[:-4]
                     save_image(z_fake[0], save_path +"_pred"+'.png')
                 else:
                     continue
             print('Predicting '+str(counter)+' images took ', time_sum/counter)  
         else:
-            depth = cv2.imread(args.input_image_path,cv2.IMREAD_UNCHANGED).astype(np.float32)
+            depth = cv2.imread(args.depth_folder,cv2.IMREAD_UNCHANGED).astype(np.float32)
             if len(depth.shape) < 3:
                 print("Got 1 channel depth images, creating 3 channel depth images")
                 combine_depth = np.empty((depth.shape[0],depth.shape[1], 3))
@@ -120,7 +121,8 @@ if __name__ == '__main__':
             z_fake_norm=zfv.pow(2).sum(dim=1).pow(0.5).unsqueeze(1)
             zfv=zfv/z_fake_norm
             z_fake=(zfv+1)/2
-            save_path=args.input_image_path[:-4]
+            dirname, basename = os.path.split(args.depth_folder)
+            save_path=args.pred_folder+basename[:-4]
             save_image(z_fake[0], save_path +"_pred"+'.png')
             print('Predicting the image took ', stop-start)
     

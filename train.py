@@ -1,20 +1,11 @@
-import numpy as np
-import os, sys
+import os
 from model_fpn import D2N
 import argparse, time
 import torch
 from torch.autograd import Variable
 from datasetloader import DatasetLoader
 import torch.nn as nn
-import torch.nn.functional as F
-from torchvision import transforms
-from torch.utils.data.sampler import Sampler
 from torchvision.utils import save_image
-from collections import Counter
-import matplotlib, cv2
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-from threading import Thread
 
 def parse_args():
     """

@@ -8,3 +8,5 @@ val.txt
 *.zip
 *.png
 predictions/*
+dataset/*
+data/*

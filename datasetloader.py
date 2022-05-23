@@ -3,8 +3,7 @@ import numpy as np
 from PIL import Image
 from pathlib import Path
 from torchvision.transforms import Resize, Compose, ToTensor
-import torch, time, os
-import random
+import os
 import cv2
 
 class DatasetLoader(data.Dataset):

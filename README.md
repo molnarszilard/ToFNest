@@ -5,22 +5,27 @@ In this work we propose an efficient normal estimation method for  depth  images
 
 ## Content
 - [Prerequisites](#prerequisites)
+- [Create conda env](#create-conda-env)
 - [Data Preparation](#data-preparation)
 - [Training and Evaluation](#training-and-evaluation)
 - [How to run](#how-to-run)
 - [Demo](#demo)
 
 ## Prerequisites
-The code was built using the following libraries ([requirements.txt](requirements.txt)):
+The code was built using the following libraries ([environment.yml](environment.yml)):
 - [Python](https://www.python.org/downloads/)  >= 3.6
 - [PyTorch](https://github.com/pytorch/pytorch) >= 1.3
 - [Scipy](https://github.com/scipy/scipy)
 - [OpenCV](https://github.com/opencv/opencv)
-- [Imageio](https://imageio.github.io/)
 - [Matplotlib](https://matplotlib.org/stable/index.html)
-- [Constants](https://pypi.org/project/constants/)
 
 ### Create conda env
+
+You can create it automatically:
+
+```conda env create -f environment.yml```
+
+or manually:
 
 ```conda create -n tofnest python=3.6```
 
@@ -31,6 +36,12 @@ you can change the version of pytorch. Tested with 1.4 and 1.8
 ```conda install -c anaconda scipy -y```
 
 ```conda install -c conda-forge matplotlib -y```
+
+```conda install -c conda-forge opencv -y```
+
+```conda install -c anaconda pillow```
+
+additionally install with pip: numpy, timeit
 
 ## Data Preparation
 
@@ -59,9 +70,9 @@ Run python train.py [--options], example (data_dir is for the dataset directory.
 
 Here you can create a prediction on a single image, then set the path to that image, or you can predict the normal images for an entire folder, by adding the --eval_folder=True flag in addition to the folder path.
 
-Run python eval.py [--options], for example (input_image_path can be a file or an entire folder):
+Run python eval.py [--options], for example (depth_folder can be a file or an entire folder):
 
-```python eval.py --input_image_path=./dataset/depth3/ --model_path=./saved_models/d2n_1_9.pth```
+```python eval.py --depth_folder=./dataset/depth3/test/ --model_path=./saved_models/d2n_1_9.pth --pred_folder=./pred_images/```
 
 At https://github.com/molnarszilard/ToFNest_data_processing, you can find a code that compares the GT pointcloud with normals to your generated normal images.
 ## Demo
