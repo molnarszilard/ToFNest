@@ -43,9 +43,9 @@ def parse_args():
     parser.add_argument('--data_dir', dest='data_dir',
                       help='dataset directory',
                       default='/dataset/', type=str)
-    parser.add_argument('--depth_dir', dest='data_dir',
+    parser.add_argument('--depth_dir', dest='depth_dir',
                       help='dataset directory of the folder containing depth images. This is inside data_dir. Inside this folder the data should be organised int otrain and test batched. Next to this folder there should be a normalimages named folder containing the normalimages.',
-                      default='/dataset/', type=str)
+                      default='depth3', type=str)
 
 # config optimization
     parser.add_argument('--o', dest='optimizer',
@@ -141,6 +141,15 @@ def resize_tensor(img, coords):
 if __name__ == '__main__':
 
     args = parse_args()
+    isExist = os.path.exists(args.dir_images)
+    if not isExist:
+        os.makedirs(args.dir_images)
+        print("The new directory for saving images while training is created!")
+
+    isExist = os.path.exists(args.model_dir)
+    if not isExist:
+        os.makedirs(args.model_dir)
+        print("The new directory for saving models while training is created!")
 
     if torch.cuda.is_available() and not args.cuda:
         print("WARNING: You might want to run with --cuda")
@@ -148,9 +157,9 @@ if __name__ == '__main__':
     if not os.path.exists(args.model_dir):
         os.makedirs(args.model_dir)
         
-    train_dataset = DatasetLoader(root=args.data_dir,train=True)
+    train_dataset = DatasetLoader(root=args.data_dir,train=True,ddir=args.depth_dir)
     train_size = len(train_dataset)
-    eval_dataset = DatasetLoader(root=args.data_dir,train=False)
+    eval_dataset = DatasetLoader(root=args.data_dir,train=False,ddir=args.depth_dir)
     eval_size = len(eval_dataset)
     print(train_size)
 
