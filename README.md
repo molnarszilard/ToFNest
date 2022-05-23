@@ -8,7 +8,6 @@ In this work we propose an efficient normal estimation method for  depth  images
 - [Create conda env](#create-conda-env)
 - [Data Preparation](#data-preparation)
 - [Training and Evaluation](#training-and-evaluation)
-- [How to run](#how-to-run)
 - [Real-time evaluation](#real-time-evaluation)
 - [Demo](#demo)
 
@@ -55,8 +54,6 @@ You can also download the NYU_V2 (https://cs.nyu.edu/~silberman/datasets/nyu_dep
 
 ## Training and Evaluation
 ![arch_new](https://user-images.githubusercontent.com/22835687/109430618-f692a780-7a0a-11eb-9270-1421457f8433.png)
-
-## How to run
 
 ### Training
 
