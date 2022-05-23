@@ -53,13 +53,15 @@ In train.py you can see the available options, and modify them, either from code
 
 Run python train.py [--options], example (data_dir is for the dataset directory. depth_dir is the folder containing depth images splitted into train and test folders. You can set the number of epochs during training, the batch size, learning rate, etc... see train.py for further options):
 
-```python train.py --data_dir=/dataset/ --depth_dir=depth3 --epochs=10 --bs=1```
+```python train.py --data_dir=./dataset/ --depth_dir=depth3 --epochs=10 --bs=1```
 
 ### Evaluation
 
 Here you can create a prediction on a single image, then set the path to that image, or you can predict the normal images for an entire folder, by adding the --eval_folder=True flag in addition to the folder path.
 
-Run python eval.py [--options]
+Run python eval.py [--options], for example (input_image_path can be a file or an entire folder):
+
+```python eval.py --input_image_path=./dataset/depth3/ --model_path=./saved_models/d2n_1_9.pth```
 
 At https://github.com/molnarszilard/ToFNest_data_processing, you can find a code that compares the GT pointcloud with normals to your generated normal images.
 ## Demo

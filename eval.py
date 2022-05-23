@@ -29,7 +29,7 @@ def parse_args():
                       default=False, type=bool)
     parser.add_argument('--model_path', dest='model_path',
                       help='path to the model to use',
-                      default='saved_models/d2n_1_9_d3.pth', type=str)
+                      default='saved_models/d2n_1_9.pth', type=str)
 
     args = parser.parse_args()
     return args
@@ -69,7 +69,7 @@ if __name__ == '__main__':
 
     print('evaluating...')
     with torch.no_grad():
-        if args.eval_folder:
+        if args.input_image_path.endswith('.png'):
             dlist=os.listdir(args.input_image_path)
             dlist.sort()
             time_sum = 0
