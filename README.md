@@ -95,6 +95,64 @@ Then start a roscore, and the bag (```rosbag play -l rosbag.bag``` (-l means it 
 
 By default only the normal images are published on /normal_image topic. If you want to puv=blish the colored pcd, set publish_pcd flag to True. (Note that this will drastically reduce the speed, since the conversion between a depth image to a pcd can be a lenghty process, especially in python).
 
+## ADI Smart Camera
+Setup aditof camera for tofnest
+
+Find the ip of camera, make sure that you can connect to it with ssh
+
+After you've connected to the camera:
+- **On camera:**
+  - `cd Workspace/aditof_sdk/build`
+  - `sudo ./apps/server/aditof-server`
+- **On your machine**
+  - The following lines can be found (more detailed) here:
+    - https://github.com/analogdevicesinc/aditof_sdk/blob/master/doc/linux/build_instructions.md
+    - https://github.com/analogdevicesinc/aditof_sdk/blob/master/doc/3dsmartcam1/build_instructions.md
+    - https://github.com/analogdevicesinc/aditof_sdk/tree/master/bindings/ros
+  - **First time only in a _workspace_ folder:**
+    - `cd workspace`
+    - **Glog**
+    - `git clone --branch v0.3.5 --depth 1 https://github.com/google/glog`
+    - `cd glog`
+    - `mkdir build_0_3_5 && cd build_0_3_5`
+    - `cmake -DWITH_GFLAGS=off -DCMAKE_INSTALL_PREFIX=/opt/glog ..`
+    - `sudo make -j4 && sudo make install`
+    - `cd ../..`
+    - **Libwebsockets**
+    - `sudo apt-get install libssl-dev`
+    - `git clone --branch v3.2.3 --depth 1 https://github.com/warmcat/libwebsockets`
+    - `cd libwebsockets`
+    - `mkdir build_3_2_3 && cd build_3_2_3`
+    - `cmake -DLWS_STATIC_PIC=ON -DCMAKE_INSTALL_PREFIX=/opt/websockets ..`
+    - `sudo make -j4 && sudo make install`
+    - `cd ../..`
+    - **Protobuf**
+    - `git clone --branch v3.9.0 --depth 1 https://github.com/protocolbuffers/protobuf`
+    - `cd protobuf`
+    - `mkdir build_3_9_0 && cd build_3_9_0`
+    - `cmake -Dprotobuf_BUILD_TESTS=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_INSTALL_PREFIX=/opt/protobuf ../cmake`
+    - `sudo make -j4 && sudo make install`
+    - `cd ../..`
+    - **ADIToF SDK**
+    - `git clone https://github.com/analogdevicesinc/aditof_sdk`
+    - `cd aditof_sdk`
+    - `mkdir build && cd build`
+    - `cmake -DWITH_EXAMPLES=off -DWITH_ROS=on -DCMAKE_PREFIX_PATH="/opt/glog;/opt/protobuf;/opt/websockets" ..`
+    - `sudo cmake --build . --target install`
+    - `cmake --build . --target aditof_ros_package`
+  - **Usage**
+    - I recommend you taking a look here: https://github.com/analogdevicesinc/aditof_sdk/tree/master/bindings/ros#usage 
+    - `cd workspace/aditof_sdk/build/catkin_ws`
+    - `source devel/setup.bash`
+    - `roslaunch aditof_roscpp camera_node.launch ip:="your.cam.era.ip"`
+    - **Or as node:** 
+    - `roscore`
+    - `rosrun aditof_roscpp aditof_camera_node your.cam.era.ip`
+  - ** WARNING: PROBLEMS may appear if the two aditof_sdk packages are not the same version (both on camera and on your machine).**
+  - **After that you should be able to see all the camera topics in any terminal from your machine. Good luck!**
+
+Change the topic parameters in the tofnest_rt.py file if necessary.
+
 ## Demo
 
 Full video are available at: https://youtu.be/cOSoMvRneVw
