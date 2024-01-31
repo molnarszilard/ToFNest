@@ -48,8 +48,11 @@ additionally install with pip: numpy, timeit
 You might need to have PointCloudLibrary and opencv installed.
 
 ```mkdir build```
+
 ```cd build```
+
 ```cmake ..```
+
 ```make```
 
 ### Dataset preparation
