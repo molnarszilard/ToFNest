@@ -1,0 +1,11 @@
+
+<launch>
+ <node pkg="save_depth_images" type="save_depth_images" name="save_depth_images" output="screen" >
+<remap from="point_cloud_in" to="/pico_zense/depth/points"/>
+<remap from="ir_input" to="/pico_zense/ir/image_raw"/>
+<remap from="depth_input" to="/pico_zense/depth/image_raw"/>
+<remap from="rgb_input" to="/pico_zense/colour/image_raw"/>
+</node>
+
+</launch>
+

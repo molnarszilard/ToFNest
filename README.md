@@ -43,14 +43,44 @@ you can change the version of pytorch. Tested with 1.4 and 1.8
 
 additionally install with pip: numpy, timeit
 
-## Data Preparation
+## [Data Preparation](data_processing)
 
-You may use this https://github.com/molnarszilard/ToFNest_data_processing repo to create training dataset, or to evaluate your model.
+You might need to have PointCloudLibrary and opencv installed.
 
-You can use your own dataset, in this case you have to create your own normal ground truth using a preferred method for this.
-For training you will need the depth images with their corresponding image containing the normal vector coordinates decoded in rgb values.
+```mkdir build```
+```cd build```
+```cmake ..```
+```make```
 
-You can also download the NYU_V2 (https://cs.nyu.edu/~silberman/datasets/nyu_depth_v2.html) dataset, that contains the depth images and the gt normals (https://github.com/facebookresearch/fair_self_supervision_benchmark/blob/master/configs/benchmark_tasks/surface_normal_estimation/README.md or  https://cs.nyu.edu/~deigen/dnl/normals_gt.tgz). This might need some additional steps to read the files.
+### Dataset preparation
+
+If you have a rosbag file, you can sample depth images (also IR and RGB images, PCD-s or a combination of IR and Depth) from a ROS bag file.
+By default only the depth images are saved, if you want the rest comment out the correspondong lines in the .cpp file.
+
+Create a catkin_workspace, copy this repo inside the src. run ```catkin_make``` then ```source devel/setup.bash```
+
+To run the code, first start the rosmaster (```roscore```), then run ```roslaunch save_depth_images save_depth_images.launch```
+The code will wait for you to play the bag file (```rosbag play rosbag.bag```)
+
+After you have obtained your depth images, and they are inside path/to/dataset/depth go into bash_files/ and run:
+
+```bash create_dataset.sh path/to/dataset/ path/to/build/```
+
+Initially the normals are computed using PCLNormals, but you can use your own preferred version (just modify the code accordingly).
+The data for training will be stored in depth3/ and in normalimages/ as the ground truth.
+
+### Data augmentation
+If you want to apply some augmentations on your depth images run:
+python3 augmentation.py --dir=path/to/dataset/depth/
+And run the Dataset preparation for your augmented data.
+
+Add noise to your data by running 
+
+```bash addnoise.sh path/to/dataset/ path/to/build/```
+
+you can add noise to your depth images. (if you want to set the noise level, modify the src/addnoise2depth.cpp file), and then run the code, from Dataset preparation (note you might want to calculate your the normals for your data without noise, and in this case it is enough to create the depth3 images, be sure that all the names are correct)
+
+
 
 ## Training and Evaluation
 ![arch_new](https://user-images.githubusercontent.com/22835687/109430618-f692a780-7a0a-11eb-9270-1421457f8433.png)
@@ -72,7 +102,22 @@ Run python eval.py [--options], for example (depth_folder can be a file or an en
 
 ```python eval.py --depth_folder=./dataset/depth3/test/ --model_path=./saved_models/d2n_1_9.pth --pred_folder=./pred_images/```
 
-At https://github.com/molnarszilard/ToFNest_data_processing, you can find a code that compares the GT pointcloud with normals to your generated normal images.
+
+If you have created your normaimages (they should look like something like this: 00000_pred.png), copy them to path/to/dataset/predictions/
+
+run
+
+```bash depth2pcd_normal.sh path/to/dataset/ path/to/build/```
+
+```bash normal_performance.sh```
+
+in path/to/build/histogram.txt you can find the histogram about your model
+in path/to/dataset/pcdpred_delta/ there are the pointclouds that show you which part of the pcd was predicted correctly or not.
+
+You can use your own dataset, in this case you have to create your own normal ground truth using a preferred method for this.
+For training you will need the depth images with their corresponding image containing the normal vector coordinates decoded in rgb values.
+
+You can also download the NYU_V2 (https://cs.nyu.edu/~silberman/datasets/nyu_depth_v2.html) dataset, that contains the depth images and the gt normals (https://github.com/facebookresearch/fair_self_supervision_benchmark/blob/master/configs/benchmark_tasks/surface_normal_estimation/README.md or  https://cs.nyu.edu/~deigen/dnl/normals_gt.tgz). This might need some additional steps to read the files.
 
 ### Real-time evaluation
 
