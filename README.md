@@ -3,6 +3,8 @@
 ## Overview
 In this work we propose an efficient normal estimation method for  depth  images  acquired  by  Time-of-Flight  (ToF)  cameras based  on  feature  pyramid  networks.  We  do  the  our  normal estimation training starting from the 2D depth images, projecting  the  measured  data  into  the  3D  space  and  computing  theloss  function  for  the  pointcloud  normal.  Despite  the  simplicity of the methods it proves to be efficient in terms of robustness.Compared with the state of the art methods, our method proved to be faster with similar precision metrics from other methods on  public  datasets.  In order  to  validate  our  proposed  solution we  made  an  extensive  testing  using  both  public  datasets  and custom recorded indoor and ourdoor datasets as well.
 
+This work was published on [ICCV2021](https://www.researchgate.net/publication/356511911_ToFNest_Efficient_normal_estimation_for_time-of-flight_depth_cameras) and [Sensors2021](https://www.researchgate.net/publication/354758865_Feature_Pyramid_Network_Based_Efficient_Normal_Estimation_and_Filtering_for_Time-of-Flight_Depth_Cameras).
+
 ## Content
 - [Prerequisites](#prerequisites)
 - [Create conda env](#create-conda-env)
