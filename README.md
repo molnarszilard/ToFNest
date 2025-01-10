@@ -212,14 +212,25 @@ Full video are available at: https://youtu.be/cOSoMvRneVw
 If you find our code / paper / data useful to your research, please consider citing:
 
 ```bibtex
-@inproceedings{molnar2021ToFNestEfficientNormala,
-  title = {{{ToFNest}}: {{Efficient Normal Estimation}} for {{Time-of-Flight Depth Cameras}}},
-  booktitle = {Proceedings of the {{IEEE}}/{{CVF International Conference}} on {{Computer Vision}}},
-  author = {Moln{\'a}r, Szil{\'a}rd and Kel{\'e}nyi, Benjamin and Tam{\'a}s, Levente},
-  year = {2021},
-  pages = {1791--1798},
-  publisher = {{IEEE Computer Society}},
-  address = {{online}}
+@InProceedings{molnar2021ToFNestEfficientNormal,
+  author    = {Szil{\'{a}}rd Moln{\'{a}}r and Benjamin Kel{\'{e}}nyi and Levente Tam{\'{a}}s},
+  booktitle = {{{IEEE/CVF} International Conference on Computer Vision Workshops, {ICCVW} 2021, Montreal, BC, Canada, October 11-17, 2021}},
+  title     = {{ToFNest: Efficient Normal Estimation for Time-of-Flight Depth Cameras}},
+  year      = {2021},
+  pages     = {1791--1798},
+  publisher = {{IEEE}},
+  doi       = {10.1109/ICCVW54120.2021.00205},
+}
+
+@Article{molnar2021FeaturePyramidNetwork,
+  author  = {Szil{\'{a}}rd Moln{\'{a}}r and Benjamin Kel{\'{e}}nyi and Levente Tamas},
+  journal = {Sensors},
+  title   = {{Feature Pyramid Network Based Efficient Normal Estimation and Filtering for Time-of-Flight Depth Cameras}},
+  year    = {2021},
+  number  = {18},
+  pages   = {6257},
+  volume  = {21},
+  doi     = {10.3390/S21186257},
 }
 ```
 
